@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+  db:
+    image: postgres
+  web:
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  behave:
+    image: behave
+    network_mode: "host"
+    shm_size: 256m
+    environment:
+      - DISPLAY=$DISPLAY
+      - CHROME_BINARY_PATH=/usr/bin/google-chrome
+      - DBUS_SESSION_BUS_ADDRESS=/dev/null
+    volumes:
+      - .:/behave
+      - /tmp/.X11-unix:/tmp/.X11-unix
