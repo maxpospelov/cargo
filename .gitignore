@@ -1,0 +1,8 @@
+.~*
+.idea/
+*.pyc
+*.swp
+*.log
+.project
+.pydevproject
+*/__pycache__
