@@ -8,6 +8,8 @@
            {% csrf_token %}
     </form>
     <table id="id_route_table">
-        <tr><td>{{ new_item_text }}</td></tr>
+        {% for route in routes %}
+        <tr><td>{{ route.driver }}</td></tr>
+        {% endfor %}
     </table>
 </body>

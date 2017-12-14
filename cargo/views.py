@@ -1,7 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from cargo.models import Route
 
 
 def home_page(request):
-    return render(request, 'home.html', {
-        'new_item_text': request.POST.get('driver', ''),
-    })
+    if request.method == 'POST':
+        Route.objects.create(driver=request.POST['driver'])
+        return redirect('/')
+
+    routes = Route.objects.all()
+    return render(request, 'home.html', {'routes': routes})

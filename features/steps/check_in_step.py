@@ -28,11 +28,13 @@ def step_impl(context):
     visit(URL_PROJECT)
 
 
-@when('Опертор ввел данные')
-def step_impl(context):
-    page.find("#id_new_driver").send_keys("Driver A", Keys.ENTER)
+@when('Опертор ввел данные маршрута с водителем {drivers}')
+def step_impl(context, drivers):
+    for driver in drivers:
+        page.find("#id_new_driver").send_keys(drivers, Keys.ENTER)
 
 
-@then('На странице появляется таблица с данными')
-def step_impl(context):
-    assert page.has_text("Driver A"), True
+@then('На странице появляется таблица с данными маршрута c водителем {drivers_on_page}')
+def step_impl(context, drivers_on_page):
+    for driver in drivers_on_page:
+        assert page.has_text(driver), True
