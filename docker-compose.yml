@@ -3,6 +3,8 @@ version: '2'
 services:
   db:
     image: postgres
+    container_name: db
+    hostname: db
   web:
     build: .
     command: python3 manage.py runserver 0.0.0.0:8000
@@ -10,6 +12,13 @@ services:
       - .:/code
     ports:
       - "8000:8000"
+    depends_on:
+      - db
+  test:
+    build: .
+    command: python3 manage.py test
+    volumes:
+      - .:/code
     depends_on:
       - db
   behave:
