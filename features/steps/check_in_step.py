@@ -1,6 +1,8 @@
 from pyshould import *
 from behave import given, when, then
 from capybara.dsl import *
+from selenium.webdriver.common.keys import Keys
+import time
 
 
 URL_PROJECT = 'http://localhost:8000'
@@ -28,11 +30,9 @@ def step_impl(context):
 
 @when('Опертор ввел данные')
 def step_impl(context):
-    page.fill_in("Driver", value="Driver A")
-    page.click_button("Send")
+    page.find("#id_new_driver").send_keys("Driver A", Keys.ENTER)
 
 
 @then('На странице появляется таблица с данными')
 def step_impl(context):
-    page.visit("/route")
     assert page.has_text("Driver A"), True

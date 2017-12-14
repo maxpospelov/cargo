@@ -2,4 +2,12 @@
     <title>GARGO</title>
 </head>
 <body>
+    <h1>Routes List</h1>
+    <form method="POST">
+            <input name="driver" id="id_new_driver" placeholder="Enter a driver" />
+           {% csrf_token %}
+    </form>
+    <table id="id_route_table">
+        <tr><td>{{ new_item_text }}</td></tr>
+    </table>
 </body>
