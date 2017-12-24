@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="text-center">
+        <h2>Маршрутный лист</h2>
+    </div>
+    <table class="table table-striped">
+        <tr>
+            <th>Маршрут</th>
+            <th>Водитель</th>
+            <th>Телефон</th>
+            <th>Редактировать</th>
+            <th>Удалить</th>
+        </tr>
+        {% for route in object_list %}
+            <tr><td>{{ route.route }}</td>
+                <td>{{ route.driver }}</td>
+                <td>{{ route.phone }}</td>
+                <td id="update-{{ route.id }}"><a href="/route/{{ route.id }}/update/">Edit</a></td>
+                <td id="delete-{{ route.id }}"><a href="/route/{{ route.id }}/delete/">Delete</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <a href="/route/create/" class="btn btn-info" role="button">Добавить Маршрут</a>
+
+{% endblock %}

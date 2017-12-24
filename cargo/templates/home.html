@@ -27,7 +27,7 @@
         <div class="col-md-6 col-md-offset-3">
             <table id="id_route_table" class="table">
                 {% for route in routes %}
-                    <tr><td>{{ route.driver }}</td></tr>
+                    <tr><td>{{ route.driver }}</td><td>{{ route.route }}</td></tr>
                 {% endfor %}
             </table>
         </div>
