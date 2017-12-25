@@ -1,4 +1,16 @@
-<form class="form-horizontal" action="" method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Save" />
-</form>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="text-center">
+                <h2>Создать маршрут</h2>
+            </div>
+            <form action="" method="post">{% csrf_token %}
+                {{ form|crispy }}
+                <input class="btn btn-info" type="submit" value="Сохранить" />
+            </form>
+        </div>
+    </div>
+{% endblock %}

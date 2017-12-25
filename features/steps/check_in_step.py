@@ -30,7 +30,7 @@ def step_impl(context):
         page.find("#id_driver").set(row['driver'])
         page.find("#id_phone").set(row['phone'])
         page.find("#id_route").set(row['route'])
-        click_button("Save")
+        click_button("Сохранить")
 
 
 @when('Опертор ввел данные маршрута  с водителем  и номер телефона водителя')
@@ -54,7 +54,7 @@ def step_impl(context):
         edit_link = "(//td[contains(text(), {})]/parent::tr[1]//a[contains(text(),'Edit')])[1]"
         page.find('xpath', edit_link.format(row['edit_route'])).click()
         page.find("#id_route").set(row['correct_route'])
-        click_button("Update")
+        click_button("Редактировать")
 
 
 @when(u'Оператор переходит по ссылки и вводит корректные данные')

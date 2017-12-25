@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from cargo.models import Route
+from .models import Route
+from .forms import CreateRouteForm, EditRouteForm
+from django.contrib.auth.decorators import login_required
 
 
 class RouteListView(ListView):
@@ -13,15 +15,14 @@ class RouteListView(ListView):
 
 
 class RouteCreateView(CreateView):
-    model = Route
-    fields = ['route', 'driver', 'phone']
     template_name = 'route_create.html'
+    form_class = CreateRouteForm
     success_url = '/routes/'
 
 
 class RouteEditView(UpdateView):
     model = Route
-    fields = ['route', 'driver', 'phone']
+    form_class = EditRouteForm
     template_name = 'route_edit.html'
     success_url = '/routes/'
 
@@ -32,6 +33,7 @@ class RouteDeleteView(DeleteView):
     success_url = '/routes/'
 
 
+@login_required
 def home_page(request):
     if request.method == 'POST':
         Route.objects.create(driver=request.POST['driver'])
