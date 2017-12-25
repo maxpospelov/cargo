@@ -9,6 +9,7 @@
             <th>Маршрут</th>
             <th>Водитель</th>
             <th>Телефон</th>
+            <th>Статус</th>
             <th>Редактировать</th>
             <th>Удалить</th>
         </tr>
@@ -16,6 +17,7 @@
             <tr><td>{{ route.route }}</td>
                 <td>{{ route.driver }}</td>
                 <td>{{ route.phone }}</td>
+                <td>{{ route.status.status }}</td>
                 <td id="update-{{ route.id }}"><a href="/route/{{ route.id }}/update/">Edit</a></td>
                 <td id="delete-{{ route.id }}"><a href="/route/{{ route.id }}/delete/">Delete</a></td>
             </tr>

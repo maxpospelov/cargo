@@ -1,7 +1,7 @@
 from django.test import TestCase
+from django.contrib.auth import get_user_model
 
-
-from cargo.models import Route
+from cargo.models import Route, RouteStatus
 
 
 try:
@@ -25,10 +25,14 @@ class RouteListViewTest(TestCase):
 
 
 class RouteCreateViewTest(TestCase):
+    def setUp(self):
+        RouteStatus.objects.create(id=1, status='load')
+        self.status = RouteStatus.objects.all()
+
     def test_post(self):
         response = self.client.post(
             reverse("route_create"),
-            {'phone': '89509871234', 'route': 'EKB', 'driver': 'Driver A'}
+            {'phone': '89509871234', 'route': 'EKB', 'driver': 'Driver A', 'status': self.status[0].pk}
         )
 
         self.assertEquals(response.status_code, 302)
@@ -45,12 +49,16 @@ class RouteCreateViewTest(TestCase):
 
 
 class RouteUpdateViewTest(TestCase):
+    def setUp(self):
+        RouteStatus.objects.create(id=1, status='load')
+        self.status = RouteStatus.objects.all()
+
     def test_post(self):
         Route.objects.create(id=1, driver='Driver A', phone='89509871234', route='Kazan')
 
         response = self.client.post(
             reverse("route_update", args=[1]),
-            {'id': 1, 'phone': '89509871234', 'route': 'EKB', 'driver': 'Driver A'}
+            {'id': 1, 'phone': '89509871234', 'route': 'EKB', 'driver': 'Driver A', 'status': self.status[0].pk}
         )
 
         self.assertEquals(response.status_code, 302)
@@ -79,25 +87,18 @@ class RouteDeleteViewTest(TestCase):
 
 
 class HomePageTest(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            username="luke",
+            email="luke@example.com",
+            password="password"
+        )
+
+        self.client.login(username='luke', password='password')
+
     def test_uses_home_template(self):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home.html')
-
-    def test_can_save_a_POST_request(self):
-        response = self.client.post('/', data={'driver': 'Driver A'})
-
-        self.assertEqual(Route.objects.count(), 1)
-        new_driver = Route.objects.first()
-        self.assertEqual(new_driver.driver, 'Driver A')
-
-    def test_redirects_after_POST(self):
-        response = self.client.post('/', data={'driver': 'Driver A'})
-
-        self.assertEqual(response.status_code, 302)
-
-    def test_not_save_empty_driver(self):
-        self.client.get('/')
-        self.assertEqual(Route.objects.count(), 0)
 
     def test_dispaly_all_route(self):
         Route.objects.create(driver='Driver A')

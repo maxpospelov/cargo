@@ -4,7 +4,43 @@ from capybara.dsl import *
 import capybara
 
 capybara.default_max_wait_time = 5
-capybara.app_host = "http://localhost:8000"
+capybara.app_host = "http://localhost:8001"
+
+
+@given('Страница адиминистратора')
+def step_impl(context):
+    visit("/admin")
+    page.fill_in("username", value="admin")
+    page.fill_in("password", value="pass")
+    page.click_button("Log in")
+
+
+@then('Администратор вводит данные статуса машрута')
+def step_impl(context):
+    visit("/admin/cargo/routestatus/add/")
+    page.fill_in("status", value="load")
+    page.click_button("Save")
+    visit("/admin/logout")
+
+
+@given('Страница регистрации')
+def step_impl(context):
+    visit("/acconts/signup/")
+
+
+@when('Оператор вводит учетные записи')
+def step_impl(context):
+    visit("/acconts/signup/")
+    page.fill_in("username", value="user2")
+    page.fill_in("password1", value="password")
+    page.fill_in("password2", value="password")
+    page.click_button("Зарегистрироватся")
+
+
+@then('И переходит на старнницу ввода')
+def step_impl(context):
+    visit("/")
+    assert page.has_title("GARGO"), True
 
 
 @given('Адрес веб страницы')
@@ -30,6 +66,7 @@ def step_impl(context):
         page.find("#id_driver").set(row['driver'])
         page.find("#id_phone").set(row['phone'])
         page.find("#id_route").set(row['route'])
+        page.select(row['status'], field="status")
         click_button("Сохранить")
 
 
@@ -44,6 +81,7 @@ def step_impl(context):
         assert page.has_text(row['driver']), True
         assert page.has_text(row['phone']), True
         assert page.has_text(row['route']), True
+        assert page.has_text(row['status']), True
 
 
 @given('Оператор на странице со списком машрутов')

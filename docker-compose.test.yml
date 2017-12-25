@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+  test_db:
+    image: postgres
+    container_name: db
+    hostname: db
+  test_prepare:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    volumes:
+      - .:/code
+    depends_on:
+      - test_db
+  test_web:
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8001
+    volumes:
+      - .:/code
+    ports:
+      - "8001:8001"
+    depends_on:
+      - test_db
+  behave:
+    image: behave
+    network_mode: "host"
+    shm_size: 256m
+    environment:
+      - DISPLAY=$DISPLAY
+      - CHROME_BINARY_PATH=/usr/bin/google-chrome
+      - DBUS_SESSION_BUS_ADDRESS=/dev/null
+    volumes:
+      - .:/behave
+      - /tmp/.X11-unix:/tmp/.X11-unix

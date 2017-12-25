@@ -1,27 +1,21 @@
-<head>
-                                <meta charset="utf-8">
-                                <meta name="viewport" content="width=device-width, initial-scale=1">
-                                <title>Snippet - Bootsnipp.com</title>
-                                <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
-                                <link href="/static/bootstrap/css/base.css" rel="stylesheet" media="screen">
-                                <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-                                <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-                                <script type="text/javascript" src="/static/bootstrap/js/base.js"></script>
-</head>
-<body>
-    <div class="container login">
-        <div class="card card-container">
-            <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
-            <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png">
-            <p id="profile-name" class="profile-name-card"></p>
-            <form class="form-signin" {% url 'account_login' %}> {% csrf_token %}
-                {{ form.as_p }}
-                  {% if redirect_field_value %}
-                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-                  {% endif %}
-                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign In</button>
-            </form><!-- /form -->
-            <a class="forgot-password" href="{% url 'account_reset_password' %}">Forgot Password?</a>
-        </div><!-- /card-container -->
-    </div><!-- /container -->
-</body>
+{% extends "account/base.html" %}
+
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block content %}
+
+<!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
+<img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png">
+<p id="profile-name" class="profile-name-card"></p>
+<form class="form-signin" method="POST" action="{% url 'account_login' %}"> {% csrf_token %}
+    {{ form.as_p }}
+      {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+    <button class="btn btn-lg btn-primary btn-block btn-signin primaryAction" type="submit">Sign In</button>
+</form><!-- /form -->
+<a class="forgot-password" href="{% url 'account_reset_password' %}">Forgot Password?</a>
+
+{% endblock %}
