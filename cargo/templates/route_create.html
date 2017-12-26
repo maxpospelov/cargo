@@ -1,16 +1,105 @@
-{% extends 'base.html' %}
-{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-{% block content %}
-    <div class="row">
-        <div class="col-xs-4">
-            <div class="text-center">
-                <h2>Создать маршрут</h2>
-            </div>
-            <form action="" method="post">{% csrf_token %}
-                {{ form|crispy }}
-                <input class="btn btn-info" type="submit" value="Сохранить" />
-            </form>
-        </div>
-    </div>
-{% endblock %}
+         <!-- Website CSS style -->
+		<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+		<!-- Website Font style -->
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+        <link href="/static/bootstrap/css/base_form.css" rel="stylesheet" media="screen">
+        <!-- Google Fonts -->
+		<link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row main">
+				<div class="main-login main-center">
+                    <h5>Заполните форму регистрации машрута.</h5>
+					<form class="" method="post" action="">{% csrf_token %}
+
+						<div class="form-group">
+							<label for="name" class="cols-sm-2 control-label">Машрут</label>
+                            <span style="color:red">{{ form.route.errors }}</span>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-hand-o-right fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="route" id="route"  placeholder="Введите машрут"/>
+                                </div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="email" class="cols-sm-2 control-label">Водитель</label>
+							<span style="color:red">{{ form.driver.errors }}</span>
+                            <div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-truck" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="driver" id="driver"  placeholder="Введите ФИО водителя"/>
+								</div>
+                                <div class="row">
+                                    <div style="height:0.5em"></div>
+                                    <div class="col-md-offset-1">
+                                        <a href="#"><span style="color:white" class="glyphicon glyphicon-plus-sign"></span></a>
+                                    </div>
+                                </div>
+                            </div>
+						</div>
+
+						<div class="form-group">
+							<label for="username" class="cols-sm-2 control-label">Телефон</label>
+							<span style="color:red">{{ form.phone.errors }}</span>
+                            <div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-phone" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="phone" id="phone"  placeholder="Введите номер телефона"/>
+								</div>
+							</div>
+						</div>
+
+                        <div class="form-group">
+							<label for="password" class="cols-sm-2 control-label">Статус</label>
+							<span style="color:red">{{ form.status.errors }}</span>
+                            <select class="select form-control" id="id_status" name="status">
+                            {% for id, name in form.status.field.choices %}
+                                <option value="{{ id }}"
+                                    {% if form.status.value == id %}
+                                        selected="selected"
+                                     {% endif %}>{{ name }}
+                                    </option>
+                            {% endfor %}
+                            </select>
+                        </div>
+
+						<div class="form-group">
+							<label for="confirm" class="cols-sm-2 control-label">Ворота</label>
+                            <span style="color:red">{{ form.gate.errors }}</span>
+                            <div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="gate" id="gate"  placeholder="Введите номер ворот"/>
+								</div>
+							</div>
+						</div>
+
+                        {% if redirect_field_value %}
+                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                        {% endif %}
+
+                        <div class="form-group ">
+						    <input class="btn btn-primary btn-lg btn-block login-button" type="submit" value="Сохранить" />
+                        </div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+
+		 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+	</body>
+</html>

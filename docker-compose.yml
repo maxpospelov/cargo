@@ -9,8 +9,8 @@ services:
     build: .
     command: python3 manage.py runserver 0.0.0.0:8000
     volumes:
-      - /usr/src/app
-      - /usr/src/app/cargo/static
+      - .:/usr/src/app
+      - /usr/src/static
     expose:
       - "8000"
     depends_on:

@@ -10,7 +10,7 @@ class CreateRouteForm(forms.ModelForm):
     driver = forms.CharField(label='Driver', max_length=100)
     phone = forms.CharField(label='Phone', max_length=100)
     route = forms.CharField(label='Route', max_length=100)
-    gate = forms.CharField(label='Gate', max_length=100)
+    gate = forms.CharField(label='Gate', max_length=100, required=False)
     status = forms.ModelChoiceField(queryset=RouteStatus.objects.all())
 
 
@@ -22,5 +22,5 @@ class EditRouteForm(forms.ModelForm):
     driver = forms.CharField(label='Driver', max_length=100)
     phone = forms.CharField(label='Phone', max_length=100)
     route = forms.CharField(label='Route', max_length=100)
-    gate = forms.CharField(label='Gate', max_length=100)
+    gate = forms.CharField(label='Gate', max_length=100, required=False)
     status = forms.ModelChoiceField(queryset=RouteStatus.objects.all())

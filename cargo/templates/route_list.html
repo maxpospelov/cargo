@@ -19,7 +19,7 @@
                 <td>{{ route.driver }}</td>
                 <td>{{ route.phone }}</td>
                 <td>{{ route.status.status }}</td>
-                <td>{{ route.gate }}</td>
+                <td>{{ route.gate|default_if_none:"" }}</td>
                 <td id="update-{{ route.id }}"><a href="/route/{{ route.id }}/update/"><span class="glyphicon glyphicon-pencil"></span></a></td>
                 <td id="delete-{{ route.id }}"><a href="/route/{{ route.id }}/delete/"><span class="glyphicon glyphicon-trash"></span></a></td>
             </tr>
