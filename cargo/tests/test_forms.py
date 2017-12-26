@@ -15,7 +15,8 @@ class CreateRouteFormTestCase(TestCase):
             "driver": "John",
             "phone": "895098712378",
             "route": "EKB",
-            "status": self.status
+            "status": self.status,
+            "gate": "56"
         }
 
         self.request = RequestFactory().get("/route/create")
@@ -40,7 +41,8 @@ class EditRouteFormTestCase(TestCase):
             "driver": "John",
             "phone": "895098712378",
             "route": "EKB",
-            "status": self.status
+            "status": self.status,
+            "gate": "56"
         }
 
         self.request = RequestFactory().get("/route/1/edit")

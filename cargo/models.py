@@ -12,4 +12,5 @@ class Route(models.Model):
     driver = models.TextField(default='')
     phone = models.TextField(default='')
     route = models.TextField(default='')
+    gate = models.TextField(null=True)
     status = models.ForeignKey(RouteStatus, on_delete=models.CASCADE, null=True)

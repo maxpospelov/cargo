@@ -66,6 +66,7 @@ def step_impl(context):
         page.find("#id_driver").set(row['driver'])
         page.find("#id_phone").set(row['phone'])
         page.find("#id_route").set(row['route'])
+        page.find("#id_gate").set(row['gate'])
         page.select(row['status'], field="status")
         click_button("Сохранить")
 
@@ -82,6 +83,7 @@ def step_impl(context):
         assert page.has_text(row['phone']), True
         assert page.has_text(row['route']), True
         assert page.has_text(row['status']), True
+        assert page.has_text(row['gate']), True
 
 
 @given('Оператор на странице со списком машрутов')
@@ -89,7 +91,7 @@ def step_impl(context):
     context.update_table = context.table
     for row in context.table:
         visit("/routes")
-        edit_link = "(//td[contains(text(), {})]/parent::tr[1]//a[contains(text(),'Edit')])[1]"
+        edit_link = "(//td[contains(text(), {})]/parent::tr[1]//span[contains(@class, 'glyphicon-pencil')])[1]"
         page.find('xpath', edit_link.format(row['edit_route'])).click()
         page.find("#id_route").set(row['correct_route'])
         click_button("Редактировать")
@@ -111,7 +113,7 @@ def step_impl(context):
     context.delete_table = context.table
     for row in context.table:
         visit("/routes")
-        delete_link = "(//td[contains(text(), {})]/parent::tr[1]//a[contains(text(),'Delete')])[1]"
+        delete_link = "(//td[contains(text(), {})]/parent::tr[1]//span[contains(@class,'glyphicon-trash')])[1]"
         page.find('xpath', delete_link.format(row['delete_route'])).click()
         page.click_button("Confirm")
 

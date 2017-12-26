@@ -12,7 +12,7 @@ except ImportError:
 
 class RouteListViewTest(TestCase):
     def setUp(self):
-        Route.objects.create(driver='Driver A', phone='89509871234', route='Kazan')
+        Route.objects.create(driver='Driver A', phone='89509871234', route='Kazan', gate="8")
         Route.objects.create(driver='Driver B', phone='89509871235', route='Kazan')
 
     def test_context(self):
@@ -22,6 +22,8 @@ class RouteListViewTest(TestCase):
 
         self.assertEquals(response.context_data["route_list"].count(), 2)
         self.assertEquals(response.context_data["route_list"][0].phone, '89509871234')
+        self.assertEquals(response.context_data["route_list"][0].gate, '8')
+        self.assertEquals(response.context_data["route_list"][1].gate, None)
 
 
 class RouteCreateViewTest(TestCase):
@@ -32,7 +34,12 @@ class RouteCreateViewTest(TestCase):
     def test_post(self):
         response = self.client.post(
             reverse("route_create"),
-            {'phone': '89509871234', 'route': 'EKB', 'driver': 'Driver A', 'status': self.status[0].pk}
+            {
+                'phone': '89509871234',
+                'route': 'EKB',
+                'driver': 'Driver A',
+                'status': self.status[0].pk,
+                'gate': '9'}
         )
 
         self.assertEquals(response.status_code, 302)
@@ -58,7 +65,13 @@ class RouteUpdateViewTest(TestCase):
 
         response = self.client.post(
             reverse("route_update", args=[1]),
-            {'id': 1, 'phone': '89509871234', 'route': 'EKB', 'driver': 'Driver A', 'status': self.status[0].pk}
+            {
+                'id': 1,
+                'phone': '89509871234',
+                'route': 'EKB',
+                'driver': 'Driver A',
+                'status': self.status[0].pk,
+                'gate': '8'}
         )
 
         self.assertEquals(response.status_code, 302)

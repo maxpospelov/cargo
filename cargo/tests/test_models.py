@@ -14,6 +14,7 @@ class TestRoute(TestCase):
         first_driver.driver = 'Driver A'
         first_driver.phone = '89506783541'
         first_driver.status = first_status
+        first_driver.gate = '56'
 
         first_driver.save()
 
@@ -23,6 +24,7 @@ class TestRoute(TestCase):
         self.assertEqual(saved_driver[0].driver, 'Driver A')
         self.assertEqual(saved_driver[0].phone, '89506783541')
         self.assertEqual(saved_driver[0].status.status, 'Load')
+        self.assertEqual(saved_driver[0].gate, '56')
 
 
 class TestRouteStatus(TestCase):

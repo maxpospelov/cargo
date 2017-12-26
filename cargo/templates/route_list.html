@@ -10,6 +10,7 @@
             <th>Водитель</th>
             <th>Телефон</th>
             <th>Статус</th>
+            <th>Ворота</th>
             <th>Редактировать</th>
             <th>Удалить</th>
         </tr>
@@ -18,8 +19,9 @@
                 <td>{{ route.driver }}</td>
                 <td>{{ route.phone }}</td>
                 <td>{{ route.status.status }}</td>
-                <td id="update-{{ route.id }}"><a href="/route/{{ route.id }}/update/">Edit</a></td>
-                <td id="delete-{{ route.id }}"><a href="/route/{{ route.id }}/delete/">Delete</a></td>
+                <td>{{ route.gate }}</td>
+                <td id="update-{{ route.id }}"><a href="/route/{{ route.id }}/update/"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                <td id="delete-{{ route.id }}"><a href="/route/{{ route.id }}/delete/"><span class="glyphicon glyphicon-trash"></span></a></td>
             </tr>
         {% endfor %}
     </table>
