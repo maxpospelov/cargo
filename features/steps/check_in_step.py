@@ -63,10 +63,10 @@ def step_impl(context):
     context.saved_table = context.table
     for row in context.table:
         visit("/route/create")
-        page.find("#id_driver").set(row['driver'])
-        page.find("#id_phone").set(row['phone'])
-        page.find("#id_route").set(row['route'])
-        page.find("#id_gate").set(row['gate'])
+        page.find("#driver").set(row['driver'])
+        page.find("#phone").set(row['phone'])
+        page.find("#route").set(row['route'])
+        page.find("#gate").set(row['gate'])
         page.select(row['status'], field="status")
         click_button("Сохранить")
 
@@ -93,7 +93,7 @@ def step_impl(context):
         visit("/routes")
         edit_link = "(//td[contains(text(), {})]/parent::tr[1]//span[contains(@class, 'glyphicon-pencil')])[1]"
         page.find('xpath', edit_link.format(row['edit_route'])).click()
-        page.find("#id_route").set(row['correct_route'])
+        page.find("#route").set(row['correct_route'])
         click_button("Редактировать")
 
 
