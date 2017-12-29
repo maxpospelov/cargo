@@ -8,9 +8,16 @@ class RouteStatus(models.Model):
         return '{}'.format(self.status)
 
 
-class Route(models.Model):
-    driver = models.TextField(default='')
+class Driver(models.Model):
+    name = models.TextField(default='')
     phone = models.TextField(default='')
+
+    def __str__(self):
+        return '{}({})'.format(self.name, self.phone)
+
+
+class Route(models.Model):
+    driver = models.ForeignKey(Driver, on_delete=models.CASCADE, null=True)
+    status = models.ForeignKey(RouteStatus, on_delete=models.CASCADE, null=True)
     route = models.TextField(default='')
     gate = models.TextField(null=True)
-    status = models.ForeignKey(RouteStatus, on_delete=models.CASCADE, null=True)

@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.test.client import RequestFactory
 
 from ..forms import CreateRouteForm, EditRouteForm
-from ..models import RouteStatus
+from ..models import RouteStatus, Driver, Route
 
 
 class CreateRouteFormTestCase(TestCase):
@@ -11,9 +11,11 @@ class CreateRouteFormTestCase(TestCase):
         RouteStatus.objects.create(id=1, status='load')
         self.status = RouteStatus.objects.all()
 
+        Driver.objects.create(id=2, name='John', phone='895098712378')
+        self.driver = Driver.objects.all()
+
         self.data = {
-            "driver": "John",
-            "phone": "895098712378",
+            "driver": self.driver,
             "route": "EKB",
             "status": self.status,
             "gate": "56"
@@ -34,14 +36,15 @@ class CreateRouteFormTestCase(TestCase):
 class EditRouteFormTestCase(TestCase):
 
     def setUp(self):
-        RouteStatus.objects.create(id=1, status='load')
-        self.status = RouteStatus.objects.all()
+        self.status = RouteStatus.objects.create(id=1, status='load')
+        self.driver = Driver.objects.create(id=2, name='Driver A', phone='89509871234')
+
+        Route.objects.create(id=1, driver=self.driver, status=self.status, route='Kazan', gate="8")
 
         self.data = {
-            "driver": "John",
-            "phone": "895098712378",
+            "driver": 2,
             "route": "EKB",
-            "status": self.status,
+            "status": 1,
             "gate": "56"
         }
 

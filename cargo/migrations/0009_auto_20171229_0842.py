@@ -7,13 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('cargo', '0006_auto_20171225_0917'),
+        ('cargo', '0008_driver'),
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='route',
-            name='gate',
-            field=models.TextField(null=True),
+        migrations.RenameField(
+            model_name='driver',
+            old_name='driver',
+            new_name='name',
         ),
     ]

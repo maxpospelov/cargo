@@ -16,8 +16,8 @@
         </tr>
         {% for route in object_list %}
             <tr><td>{{ route.route }}</td>
-                <td>{{ route.driver }}</td>
-                <td>{{ route.phone }}</td>
+                <td>{{ route.driver.name }}</td>
+                <td>{{ route.driver.phone }}</td>
                 <td>{{ route.status.status }}</td>
                 <td>{{ route.gate|default_if_none:"" }}</td>
                 <td id="update-{{ route.id }}"><a href="/route/{{ route.id }}/update/"><span class="glyphicon glyphicon-pencil"></span></a></td>

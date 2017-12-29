@@ -32,35 +32,22 @@
 						</div>
 
 						<div class="form-group">
-							<label for="email" class="cols-sm-2 control-label">Водитель</label>
-							<span style="color:red">{{ form.driver.errors }}</span>
-                            <div class="cols-sm-10">
-								<div class="input-group">
-									<span class="input-group-addon"><i class="fa fa-truck" aria-hidden="true"></i></span>
-									<input type="text" class="form-control" name="driver" id="driver"  placeholder="Введите ФИО водителя"/>
-								</div>
-                                <div class="row">
-                                    <div style="height:0.5em"></div>
-                                    <div class="col-md-offset-1">
-                                        <a href="#"><span style="color:white" class="glyphicon glyphicon-plus-sign"></span></a>
-                                    </div>
-                                </div>
-                            </div>
-						</div>
-
-						<div class="form-group">
-							<label for="username" class="cols-sm-2 control-label">Телефон</label>
-							<span style="color:red">{{ form.phone.errors }}</span>
-                            <div class="cols-sm-10">
-								<div class="input-group">
-									<span class="input-group-addon"><i class="fa fa-phone" aria-hidden="true"></i></span>
-									<input type="text" class="form-control" name="phone" id="phone"  placeholder="Введите номер телефона"/>
-								</div>
-							</div>
-						</div>
+                            <label for="driver" class="cols-sm-2 control-label">Водитель</label>
+                            <span style="color:red">{{ form.driver.errors }}</span>
+                            <select class="select form-control" id="id_driver" name="driver">
+                            {% for id, driver in form.driver.field.choices %}
+                                <option value="{{ id }}"
+                                    {% if form.driver.value == id %}
+                                        selected="selected"
+                                     {% endif %}>
+                                        {{ driver }}
+                                    </option>
+                            {% endfor %}
+                            </select>
+                        </div>
 
                         <div class="form-group">
-							<label for="password" class="cols-sm-2 control-label">Статус</label>
+							<label for="satus" class="cols-sm-2 control-label">Статус</label>
 							<span style="color:red">{{ form.status.errors }}</span>
                             <select class="select form-control" id="id_status" name="status">
                             {% for id, name in form.status.field.choices %}
@@ -74,7 +61,7 @@
                         </div>
 
 						<div class="form-group">
-							<label for="confirm" class="cols-sm-2 control-label">Ворота</label>
+							<label for="gate" class="cols-sm-2 control-label">Ворота</label>
                             <span style="color:red">{{ form.gate.errors }}</span>
                             <div class="cols-sm-10">
 								<div class="input-group">

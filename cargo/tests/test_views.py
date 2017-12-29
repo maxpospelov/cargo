@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
-from cargo.models import Route, RouteStatus
+from cargo.models import Route, RouteStatus, Driver
 
 
 try:
@@ -12,8 +12,11 @@ except ImportError:
 
 class RouteListViewTest(TestCase):
     def setUp(self):
-        Route.objects.create(driver='Driver A', phone='89509871234', route='Kazan', gate="8")
-        Route.objects.create(driver='Driver B', phone='89509871235', route='Kazan')
+        driver1 = Driver.objects.create(id=2, name='Driver A', phone='89509871234')
+        driver2 = Driver.objects.create(id=3, name='Driver B', phone='89509871235')
+
+        Route.objects.create(driver=driver1, route='Kazan', gate="8")
+        Route.objects.create(driver=driver2, route='Kazan')
 
     def test_context(self):
         response = self.client.get(
@@ -21,24 +24,26 @@ class RouteListViewTest(TestCase):
         )
 
         self.assertEquals(response.context_data["route_list"].count(), 2)
-        self.assertEquals(response.context_data["route_list"][0].phone, '89509871234')
+        self.assertEquals(response.context_data["route_list"][0].driver.phone, '89509871234')
+        self.assertEquals(response.context_data["route_list"][0].driver.name, 'Driver A')
+        self.assertEquals(response.context_data["route_list"][1].driver.phone, '89509871235')
+        self.assertEquals(response.context_data["route_list"][1].driver.name, 'Driver B')
         self.assertEquals(response.context_data["route_list"][0].gate, '8')
         self.assertEquals(response.context_data["route_list"][1].gate, None)
 
 
 class RouteCreateViewTest(TestCase):
     def setUp(self):
-        RouteStatus.objects.create(id=1, status='load')
-        self.status = RouteStatus.objects.all()
+        self.driver = Driver.objects.create(id=2, name='Driver A', phone='89509871234')
+        self.status = RouteStatus.objects.create(id=1, status='load')
 
     def test_post(self):
         response = self.client.post(
             reverse("route_create"),
             {
-                'phone': '89509871234',
                 'route': 'EKB',
-                'driver': 'Driver A',
-                'status': self.status[0].pk,
+                'driver': 2,
+                'status': 1,
                 'gate': '9'}
         )
 
@@ -48,7 +53,11 @@ class RouteCreateViewTest(TestCase):
     def test_post_on_error(self):
         response = self.client.post(
             reverse("route_create"),
-            {}
+            {
+                'route': None,
+                'driver': None,
+                'status': 1,
+                'gate': '9'}
         )
 
         self.assertEquals(response.status_code, 200)
@@ -57,20 +66,19 @@ class RouteCreateViewTest(TestCase):
 
 class RouteUpdateViewTest(TestCase):
     def setUp(self):
-        RouteStatus.objects.create(id=1, status='load')
-        self.status = RouteStatus.objects.all()
+        self.driver = Driver.objects.create(id=2, name='Driver A', phone='89509871234')
+        self.status = RouteStatus.objects.create(id=1, status='load')
 
     def test_post(self):
-        Route.objects.create(id=1, driver='Driver A', phone='89509871234', route='Kazan')
+        Route.objects.create(id=1, driver=self.driver, route='Kazan')
 
         response = self.client.post(
             reverse("route_update", args=[1]),
             {
                 'id': 1,
-                'phone': '89509871234',
                 'route': 'EKB',
-                'driver': 'Driver A',
-                'status': self.status[0].pk,
+                'driver': 2,
+                'status': 1,
                 'gate': '8'}
         )
 
@@ -84,7 +92,8 @@ class RouteUpdateViewTest(TestCase):
 
 class RouteDeleteViewTest(TestCase):
     def test_post(self):
-        Route.objects.create(id=1, driver='Driver A', phone='89509871234', route='Kazan')
+        driver = Driver.objects.create(id=2, name='Driver A', phone='89509871234')
+        Route.objects.create(id=1, driver=driver, route='Kazan')
 
         response = self.client.post(
             reverse("route_delete", args=[1]),
@@ -114,8 +123,19 @@ class HomePageTest(TestCase):
         self.assertTemplateUsed(response, 'home.html')
 
     def test_dispaly_all_route(self):
-        Route.objects.create(driver='Driver A')
-        Route.objects.create(driver='Driver B')
+        Driver.objects.create(id=2, name='Driver A', phone='89509871234')
+        Driver.objects.create(id=3, name='Driver B', phone='89509871233')
+
+        drivers = Driver.objects.all()
+
+        RouteStatus.objects.create(id=1, status='load')
+        status = RouteStatus.objects.all()
+
+        Route.objects.create(id=1, route='A', driver=drivers[0], status=status[0])
+        Route.objects.create(id=2, route='B', driver=drivers[1], status=status[0])
+
+        routes = Route.objects.all()
+        self.assertEqual(routes.count(), 2)
 
         response = self.client.get('/')
 

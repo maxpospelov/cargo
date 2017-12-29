@@ -10,8 +10,10 @@ case $task in
     flush)
         python3 manage.py flush --noinput
         ;;
-    migrate)
+    makemigration)
         python3 manage.py makemigrations --noinput
+        ;;
+    migrate)
         python3 manage.py migrate
         ;;
 esac

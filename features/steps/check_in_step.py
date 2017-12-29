@@ -4,11 +4,12 @@ from capybara.dsl import *
 import capybara
 
 capybara.default_max_wait_time = 5
-capybara.app_host = "http://localhost:8001"
+capybara.app_host = "http://localhost:8000"
 
 
 @given('Страница адиминистратора')
 def step_impl(context):
+    context.saved_table = context.table
     visit("/admin")
     page.fill_in("username", value="admin")
     page.fill_in("password", value="pass")
@@ -20,6 +21,17 @@ def step_impl(context):
     visit("/admin/cargo/routestatus/add/")
     page.fill_in("status", value="load")
     page.click_button("Save")
+    visit("/admin/logout")
+
+
+@then('Администратор вводит список водителей')
+def step_impl(context):
+    for row in context.saved_table:
+        visit("/admin/cargo/driver/add/")
+        page.fill_in("name", value=row["driver"])
+        page.fill_in("phone", value=row["phone"])
+        page.click_button("Save")
+
     visit("/admin/logout")
 
 
@@ -61,19 +73,19 @@ def step_impl(context):
 @given('Оператор на странице ввода')
 def step_impl(context):
     context.saved_table = context.table
-    for row in context.table:
+    visit("/routes")
+
+
+@when('Опертор ввел данные маршрута')
+def step_impl(context):
+    visit("/routes")
+    for row in context.saved_table:
         visit("/route/create")
-        page.find("#driver").set(row['driver'])
-        page.find("#phone").set(row['phone'])
+        page.select(row['driver_phone'], field="driver")
         page.find("#route").set(row['route'])
         page.find("#gate").set(row['gate'])
         page.select(row['status'], field="status")
         click_button("Сохранить")
-
-
-@when('Опертор ввел данные маршрута  с водителем  и номер телефона водителя')
-def step_impl(context):
-    visit("/routes")
 
 
 @then('На странице появляется таблица с данными маршрута c водителем номер телефона')

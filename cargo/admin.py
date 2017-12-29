@@ -1,7 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
-from .models import Route, RouteStatus
+from .models import Route, RouteStatus, Driver
 
 
 class RouteAdmin(admin.ModelAdmin):
@@ -17,4 +16,12 @@ class RouteStatusAdmin(admin.ModelAdmin):
         model = RouteStatus
 
 
-admin.site.register(RouteStatus, RouteAdmin)
+admin.site.register(RouteStatus, RouteStatusAdmin)
+
+
+class DriverAdmin(admin.ModelAdmin):
+    class Meta:
+        model = Driver
+
+
+admin.site.register(Driver, DriverAdmin)
