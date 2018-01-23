@@ -8,6 +8,7 @@
         <tr>
             <th>Маршрут</th>
             <th>Водитель</th>
+            <th>&nbsp;</th>
             <th>Телефон</th>
             <th>Статус</th>
             <th>Ворота</th>
@@ -17,11 +18,12 @@
         {% for route in object_list %}
             <tr><td>{{ route.route }}</td>
                 <td>{{ route.driver.name }}</td>
+                <td class="driver_update"><a href="/driver/{{ route.driver.id }}/update/"><span class="glyphicon glyphicon-pencil"></span></a></td>
                 <td>{{ route.driver.phone }}</td>
                 <td>{{ route.status.status }}</td>
                 <td>{{ route.gate|default_if_none:"" }}</td>
-                <td id="update-{{ route.id }}"><a href="/route/{{ route.id }}/update/"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                <td id="delete-{{ route.id }}"><a href="/route/{{ route.id }}/delete/"><span class="glyphicon glyphicon-trash"></span></a></td>
+                <td class="route_update" id="update-{{ route.id }}"><a href="/route/{{ route.id }}/update/"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                <td class="route_delete" id="delete-{{ route.id }}"><a href="/route/{{ route.id }}/delete/"><span class="glyphicon glyphicon-trash"></span></a></td>
             </tr>
         {% endfor %}
     </table>

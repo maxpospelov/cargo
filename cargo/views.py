@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from .models import Route
-from .forms import CreateRouteForm, EditRouteForm
+from .models import Route, Driver
+from .forms import CreateRouteForm, EditRouteForm, DriverCreateForm, DriverEditForm
 from django.contrib.auth.decorators import login_required
 
 
@@ -30,6 +30,22 @@ class RouteEditView(UpdateView):
 class RouteDeleteView(DeleteView):
     model = Route
     template_name = 'route_delete.html'
+    success_url = '/routes/'
+
+
+class DriverCreateView(CreateView):
+    model = Driver
+    form_class = DriverCreateForm
+    template_name = 'driver_create.html'
+
+    def get_success_url(self):
+        return '/route/create/'
+
+
+class DriverEditView(UpdateView):
+    model = Driver
+    form_class = DriverEditForm
+    template_name = 'driver_edit.html'
     success_url = '/routes/'
 
 

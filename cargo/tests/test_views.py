@@ -108,6 +108,49 @@ class RouteDeleteViewTest(TestCase):
         self.assertEquals(len(route), 0)
 
 
+class DriverUpdateViewTest(TestCase):
+    def test_post(self):
+        Driver.objects.create(id=1, name='Driver A', phone='911')
+
+        response = self.client.post(
+            reverse("driver_update", args=[1]),
+            {
+                'id': 1,
+                'name': 'Driver B',
+                'phone': '922'}
+        )
+
+        self.assertEquals(response.status_code, 302)
+        self.assertRedirects(response, reverse("route_list"))
+
+        driver = Driver.objects.get(id=1)
+
+        self.assertEquals(driver.name, 'Driver B')
+
+
+class DriverCreateViewTest(TestCase):
+    def test_post(self):
+        response = self.client.post(
+            reverse("driver_create"),
+            {
+                'name': 'Driver A',
+                'phone': '89506431289'}
+        )
+
+        self.assertEquals(response.status_code, 302)
+        self.assertRedirects(response, reverse("route_create"))
+
+    def test_post_on_error(self):
+        response = self.client.post(
+            reverse("driver_create"),
+            {}
+        )
+
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.context_data["form"].is_valid(), False)
+        self.assertIn('This field is required', response.content.decode())
+
+
 class HomePageTest(TestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(

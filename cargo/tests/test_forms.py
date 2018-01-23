@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.test.client import RequestFactory
 
-from ..forms import CreateRouteForm, EditRouteForm
+from ..forms import CreateRouteForm, EditRouteForm, DriverEditForm
 from ..models import RouteStatus, Driver, Route
 
 
@@ -58,3 +58,20 @@ class EditRouteFormTestCase(TestCase):
         self.data["route"] = None
         form = EditRouteForm(self.data)
         self.assertFalse(form.is_valid())
+
+
+class EditDriverFormTestCase(TestCase):
+
+    def setUp(self):
+        self.driver = Driver.objects.create(id=2, name='Driver A', phone='89509871234')
+
+        self.data = {
+            "name": "Driver D",
+            "phone": "89509871234"
+        }
+
+        self.request = RequestFactory().get("/driver/2/edit")
+
+    def test_fields_requiered(self):
+        form = DriverEditForm(self.data)
+        self.assertTrue(form.is_valid())

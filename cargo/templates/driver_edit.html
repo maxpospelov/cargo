@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+         <!-- Website CSS style -->
+		<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+		<!-- Website Font style -->
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+        <link href="/static/bootstrap/css/base_form.css" rel="stylesheet" media="screen">
+        <!-- Google Fonts -->
+		<link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row main">
+				<div class="main-login main-center">
+					<form class="" method="post" action="">{% csrf_token %}
+
+						<div class="form-group">
+							<label for="name" class="cols-sm-2 control-label">Водитель</label>
+                            <span style="color:red">{{ form.name.errors }}</span>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-hand-o-right fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="name" id="name"  placeholder="Фамилия Имя" value="{{ driver.name }}" />
+                                </div>
+							</div>
+						</div>
+
+                        <div class="form-group">
+							<label for="name" class="cols-sm-2 control-label">Телефон</label>
+                            <span style="color:red">{{ form.phone.errors }}</span>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-hand-o-right fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="phone" id="phone"  placeholder="Номер телефона" value="{{ driver.phone }}" />
+                                </div>
+							</div>
+						</div>
+
+                        <input type="hidden" name="redirect_url" value="{{ request.next }}" />
+
+                        <div class="form-group ">
+						    <input class="btn btn-primary btn-lg btn-block login-button" type="submit" value="Редактировать" />
+                        </div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+
+		 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+	</body>
+</html>
